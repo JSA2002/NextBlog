@@ -1,53 +1,63 @@
-import React from 'react';
-import styles from "./menuposts.module.css";
-import Image from "next/image";
-import Link from "next/link";
+import React, { useEffect, useState } from 'react';
+import styles from './menuposts.module.css';
+import Image from 'next/image';
+import Link from 'next/link';
 
-let fetchdata = async (value) => {
-  const res = await fetch(
-    `${process.env.NEXTAUTH_URL}/api/posts/${value}`,
-    {
-      cache: "no-store",
-    }
-  );
+const fetchdata = async (value) => {
+  const res = await fetch(`${process.env.NEXTAUTH_URL}/api/posts/${value}`, {
+    cache: 'no-store',
+  });
 
   if (!res.ok) {
-    throw new Error("Failed");
+    throw new Error('Failed');
   }
 
   return res.json();
-}
-const MenuPosts = async ({ withImage }) => {
-  let j = 0, data = [];
-  for (let i = 5; i < 12; i++) {
-    data[j] = await fetchdata(i);
-    j++; i++;
-  }
+};
 
-  
+const MenuPosts = ({ withImage }) => {
+  const [postData, setPostData] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      let newData = [];
+      for (let i = 5; i < 12; i++) {
+        try {
+          const result = await fetchdata(i);
+          newData.push(result);
+        } catch (error) {
+          console.error(`Error fetching data for post ${i}: ${error.message}`);
+        }
+      }
+      setPostData(newData);
+    };
+
+    fetchData();
+  }, []); // Empty dependency array ensures that this effect runs only once on component mount
+
   return (
     <div className={styles.container}>
       <div className={styles.items}>
-        {data.map((value) => 
+        {postData.map((value) => (
           <Link href={`/posts/${value.slug}`} className={styles.item} key={value.id}>
-            {withImage && <div className={styles.imageContainer}>
-              <Image src={value.img} alt="" fill className={styles.image} />
-            </div>}
+            {withImage && (
+              <div className={styles.imageContainer}>
+                <Image src={value.img} alt="" fill className={styles.image} />
+              </div>
+            )}
             <div className={styles.textContainer}>
               <span className={`${styles.category} ${styles[value.catSlug]}`}>{value.catSlug}</span>
               <h3 className={styles.postTitle}>{value.title}</h3>
               <div className={styles.detail}>
-                <span className={styles.username}>{value.user.name + " - "}</span>
+                <span className={styles.username}>{value.user.name + ' - '}</span>
                 <span className={styles.date}>{value.createdAt}</span>
               </div>
             </div>
           </Link>
-        )
-
-        }
+        ))}
       </div>
     </div>
-  )
-}
+  );
+};
 
 export default MenuPosts;

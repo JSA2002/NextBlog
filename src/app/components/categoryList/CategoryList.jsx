@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styles from "../categoryList/categorylist.module.css";
 import Link from "next/link";
 import Image from "next/image";
@@ -15,8 +15,22 @@ const getData = async () => {
   return res.json();
 };
 
-const CategoryList = async () => {
-  const data = await getData();
+const CategoryList = () => {
+  const [data, setData] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const result = await getData();
+        setData(result);
+      } catch (error) {
+        console.error(`Error fetching category data: ${error.message}`);
+      }
+    };
+
+    fetchData();
+  }, []); // Empty dependency array ensures that this effect runs only once on component mount
+
   return (
     <div className={styles.container}>
       <h1 className={styles.title}>Popular Categories</h1>
