@@ -5,7 +5,7 @@ import Link from "next/link";
 
 let fetchdata = async (value) => {
   const res = await fetch(
-    `http://localhost:3000/api/posts/${value}`,
+    `${process.env.NEXTAUTH_URL}/api/posts/${value}`,
     {
       cache: "no-store",
     }
