@@ -6,7 +6,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 const fetchdata = async (value) => {
-  const res = await fetch(`http://localhost:3000/api/posts/${value}`, {
+  const res = await fetch(`https://nextblog-ashen.vercel.app/api/posts/${value}`, {
     cache: 'no-store',
   });
   if (!res.ok) {
