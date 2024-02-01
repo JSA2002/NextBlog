@@ -1,13 +1,14 @@
+"use client"
+require('dotenv').config();
 import React, { useEffect, useState } from 'react';
 import styles from './menuposts.module.css';
 import Image from 'next/image';
 import Link from 'next/link';
 
 const fetchdata = async (value) => {
-  const res = await fetch(`${process.env.NEXTAUTH_URL}/api/posts/${value}`, {
+  const res = await fetch(`http://localhost:3000/api/posts/${value}`, {
     cache: 'no-store',
   });
-
   if (!res.ok) {
     throw new Error('Failed');
   }
@@ -21,7 +22,7 @@ const MenuPosts = ({ withImage }) => {
   useEffect(() => {
     const fetchData = async () => {
       let newData = [];
-      for (let i = 5; i < 12; i++) {
+      for (let i = 5; i < 12; i++,i++) {
         try {
           const result = await fetchdata(i);
           newData.push(result);

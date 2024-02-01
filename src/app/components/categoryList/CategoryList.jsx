@@ -1,10 +1,11 @@
+"use client"
 import React, { useEffect, useState } from "react";
 import styles from "../categoryList/categorylist.module.css";
 import Link from "next/link";
 import Image from "next/image";
 
 const getData = async () => {
-  const res = await fetch(`${process.env.NEXTAUTH_URL}/api/categories`, {
+  const res = await fetch(`http://localhost:3000/api/categories`, {
     cache: "no-store",
   });
 
@@ -39,7 +40,7 @@ const CategoryList = () => {
           <Link
             href={`/blog?cat=${item.slug}`}
             className={`${styles.category} ${styles[item.slug]}`}
-            key={item._id}
+            key={item.img}
           >
             {item.img && (
               <Image
