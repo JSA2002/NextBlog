@@ -30,7 +30,7 @@ const AuthLinks = () => {
             <Link className={styles.textfont}  onClick={()=>{setOpen(!open)}} href="/">About</Link>
             <Link className={styles.textfont}  onClick={()=>{setOpen(!open)}} href="/">Contact</Link>
             {
-              status === "unauthenticated" ? (<Link  className={styles.textfont}  href="/login">Login</Link>)
+              status === "unauthenticated" ? (<Link  className={styles.textfont}  href="/login"  onClick={()=>{setOpen(!open)}} >Login</Link>)
                 :
                 (<>
                   <Link  className={styles.textfont} onClick={()=>{setOpen(!open)}} href="/write">Write</Link>
