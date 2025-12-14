@@ -5,6 +5,7 @@ import './globals.css'
 import { Inter } from 'next/font/google'
 import ThemeProviders from '@/providers/ThemeProviders';
 import AuthProvider from "@/providers/AuthProviders";
+import Script from "next/script";
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -25,6 +26,8 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <head>
       <link rel="icon" href="../../public/favicon.ico" type="image/x-icon" sizes="16x16" />
+      <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3447352738913365"
+       crossorigin="anonymous"></script>
       </head>
       <body className={inter.className}>
         <AuthProvider>
